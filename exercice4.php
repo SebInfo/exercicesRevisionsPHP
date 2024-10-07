@@ -1,27 +1,42 @@
 <?php
-for ($i=1; $i<=5; $i++)
+require 'includes/fonctions.php';
+
+/**
+ * Vérifie si un tableau contient des doublons.
+ *
+ * @param array<int> $tableau Le tableau à examiner.
+ * @return bool Retourne true s'il y a un doublon, false sinon.
+ */
+function contientDoublon(array $tableau): bool
 {
-	$tab[] = rand(0,99);
-}
-function doublon($array)
-{
-	if(count(array_unique($array)) != count($array)) 
-	{
-		return True;
-	}	
-	else 
-	{
-       return False;
-	}
+    // Tableau associatif pour suivre les éléments déjà vus
+    $elementsVus = [];
+
+    // Parcourt chaque élément du tableau
+    foreach ($tableau as $element) {
+        // Vérifie si l'élément a déjà été vu
+        if (isset($elementsVus[$element])) {
+            return true; // Doublon trouvé
+        }
+        // Marque l'élément comme vu
+        $elementsVus[$element] = true;
+    }
+
+    // Aucun doublon trouvé
+    return false;
 }
 
-var_dump($tab);
-if (doublon($tab))
-{
-    echo "Il y a des doublons";
-}
-else
-{
-    echo "Pas de doublon";
+// Génération du tableau d'entiers de manière aléatoire
+// avec la fonction tabAlea
+try {
+    $tableau = tabAlea(5, 1, 50);
+    var_dump($tableau);
+	if (contientDoublon($tableau)) {
+		echo "Doublon présent";
+	} else {
+		echo "Pas de doublon !";
+	}
+} catch (InvalidArgumentException $e) {
+    echo 'Erreur : ' . $e->getMessage();
 }
 
